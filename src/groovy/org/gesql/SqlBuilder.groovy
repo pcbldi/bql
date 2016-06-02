@@ -4,14 +4,17 @@ package org.gesql
 class SqlBuilder {
 
   String select(List items){
-    String q = "SELECT "
-    String selectVars = items.collect { item ->
-      mapToSelectParam(item)
-    }. join(",")
-    q + selectVars
+    buildQuery("SELECT",items)
   }
 
-  private String mapToSelectParam(def field){
+  private String buildQuery(String type, List qElems){
+     String selectVars = qElems.collect { elem ->
+      mapToParam(elem)
+    }. join(",")
+    type +" "+selectVars
+  }
+
+  private String mapToParam(def field){
     String result
     switch(field.getClass()){
     case Map: def elemAsList = field.collect{k,v-> [k,v]}.flatten()
@@ -22,6 +25,10 @@ class SqlBuilder {
     default: result= ""
     }
     return result
+  }
+
+  String from(List items){
+    buildQuery("FROM", items)
   }
 
 }
