@@ -1,12 +1,15 @@
 package org.gesql
 
 
-Class SqlBuilder {
+class SqlBuilder {
 
-  String select(list items){
-    items.collect { item ->
+  String select(List items){
+    String q = "SELECT "
+    String selectVars = items.collect { item ->
       item
     }. join(",")
+
+    q + selectVars
   }
 
 }
