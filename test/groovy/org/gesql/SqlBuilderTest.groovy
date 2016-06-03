@@ -17,9 +17,9 @@ class SqlBuilderTest extends Specification {
 
   when: "testing basic select"
     SqlBuilder builder = new SqlBuilder()
-    String selectS = builder.select(paramsList)
+   builder.select(paramsList)
   then:
-  selectS == params
+  builder.selectP == params
   where:
   paramsList                          | params
   ["val1"]                            | "SELECT val1"
@@ -31,14 +31,42 @@ class SqlBuilderTest extends Specification {
   def "testing Select with maps as keys"() {
   when:
   SqlBuilder builder = new SqlBuilder()
-  String selectS = builder.select(paramsList)
+  builder.select(paramsList)
   then:
-  selectS == params
+  builder.selectP == params
   where:
   paramsList                          | params
   [["key":"value"]]                   | "SELECT key as value"
   [["key1":"value1"],["key2":"value2"]] | "SELECT key1 as value1,key2 as value2"
   [["key":"value"],"val2"]            | "SELECT key as value,val2"
+  }
+
+   def "testing from"() {
+
+  when:
+    SqlBuilder builder = new SqlBuilder()
+     builder.from(paramsList)
+  then:
+  builder.fromP == params
+  where:
+  paramsList                          | params
+  ["val1"]                            | "FROM val1"
+  ["val1", "val2"]                    | "FROM val1,val2"
+  ["val1", "val2","val3"]             | "FROM val1,val2,val3"
+  }
+
+
+  def "testing From with maps as keys"() {
+  when:
+  SqlBuilder builder = new SqlBuilder()
+  builder.from(paramsList)
+  then:
+  builder.fromP == params
+  where:
+  paramsList                          | params
+  [["key":"value"]]                   | "FROM key as value"
+  [["key1":"value1"],["key2":"value2"]] | "FROM key1 as value1,key2 as value2"
+  [["key":"value"],"val2"]            | "FROM key as value,val2"
   }
 
 }

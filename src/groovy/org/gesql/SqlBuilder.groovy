@@ -3,8 +3,13 @@ package org.gesql
 
 class SqlBuilder {
 
-  String select(List items){
-    buildQuery("SELECT",items)
+  String selectP="";
+  String fromP="";
+  String whereP="";
+
+  SqlBuilder select(List items){
+    this.selectP= buildQuery("SELECT",items)
+    this
   }
 
   private String buildQuery(String type, List qElems){
@@ -27,8 +32,21 @@ class SqlBuilder {
     return result
   }
 
-  String from(List items){
-    buildQuery("FROM", items)
+  SqlBuilder from(List items){
+    this.fromP=buildQuery("FROM", items)
+    return this
+  }
+
+  SqlBuilder from(String fromP){
+    this.fromP="FROM ${fromP}";
+    return this;
+  }
+
+  String build(){
+    [selectP, fromP, whereP]
+    .findAll {it!=""}
+    .join(" ").
+    concat(";")
   }
 
 }
