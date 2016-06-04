@@ -32,4 +32,21 @@ class HelpersTest extends Specification {
   "class_name"                               |  "ClassName"
   }
 
+  def "testing String sanitization"() {
+  when:
+  "nothing in when clause"
+  then:
+  underscoreStr == Helpers.sanitizeString(str)
+  where:
+  underscoreStr                             | str
+  "a_b"                                     | "a_b"
+  "random_class_name"                       | "randomClassName"
+  "some_string with space_camel_case"   | "someString with space-camelCase"
+  "a string without any camel"              | "A string without any camel"
+  "         "                               |  "         "
+  "_"                                       |  "-"
+  "class_name"                              |  "ClassName"
+  "z"                                       |  "Z"
+  }
+
 }
