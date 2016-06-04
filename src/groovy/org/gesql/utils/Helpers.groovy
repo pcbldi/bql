@@ -8,8 +8,8 @@ class Helpers {
 
   }
 
-  String kebabToUnderScore(String str){
-
+  static String kebabToUnderscore(String str){
+    str.replaceAll("-","_")
 
   }
 
