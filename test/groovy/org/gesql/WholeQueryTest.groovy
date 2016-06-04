@@ -12,4 +12,14 @@ class WholeQueryTest extends Specification {
   then:
   builder.build() == "SELECT val FROM table1;"
   }
+
+  def "testing Very Baisc Query with Closure"() {
+  when:
+  String query = SqlBuilder.build {
+    select(["val1"])
+    from(["table1"])
+  }
+  then:
+  query == "SELECT val1 FROM table1;"
+  }
 }

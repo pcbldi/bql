@@ -49,4 +49,9 @@ class SqlBuilder {
     concat(";")
   }
 
+  static String build(Closure closure){
+    closure.delegate = new SqlBuilder();
+    closure().build()
+  }
+
 }
