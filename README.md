@@ -1,9 +1,9 @@
-Gesql
+Bql
 -------------------------------
 
 Sql Builder in Groovy
 
-Provides easier methods and builders to generate SQL. 
+Provides easier methods and builders to generate SQL.
 Example Usage -
 
 ```
@@ -13,11 +13,11 @@ Example Usage -
          .build()
 ```
 
-Or use the DSL as 
+Or use the DSL as
 
 ```
   String query = SqlBuilder.build {
     select ["val1"]
     from "table1"
   }
-```  
+```
