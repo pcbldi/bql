@@ -17,7 +17,7 @@ class SqlBuilderTest extends Specification {
 
   when: "testing basic select"
     SqlBuilder builder = new SqlBuilder()
-   builder.select(paramsList)
+    builder.select(paramsList)
   then:
   builder.selectP == params
   where:
@@ -41,11 +41,25 @@ class SqlBuilderTest extends Specification {
   [["key":"value"],"val2"]            | "SELECT key as value,val2"
   }
 
-   def "testing from"() {
+  def "testing Select with List as keys"() {
+  when:
+  SqlBuilder builder = new SqlBuilder()
+  builder.select(paramsList)
+  then:
+  builder.selectP == params
+  where:
+  paramsList                          | params
+  ["key1", "key2"]                    | "SELECT key1,key2"
+  ["key"]                             | "SELECT key"
+  []                                  | "SELECT "
+  }
+
+
+  def "testing from"() {
 
   when:
-    SqlBuilder builder = new SqlBuilder()
-     builder.from(paramsList)
+  SqlBuilder builder = new SqlBuilder()
+  builder.from(paramsList)
   then:
   builder.fromP == params
   where:
@@ -68,5 +82,14 @@ class SqlBuilderTest extends Specification {
   [["key1":"value1"],["key2":"value2"]] | "FROM key1 as value1,key2 as value2"
   [["key":"value"],"val2"]            | "FROM key as value,val2"
   }
+
+  def "testing selectAll"() {
+  when:
+  SqlBuilder builder = new SqlBuilder()
+  builder.selectAll()
+  then:
+  builder.selectP == "SELECT *"
+  }
+
 
 }

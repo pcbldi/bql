@@ -13,7 +13,7 @@ class SqlBuilder {
   }
 
   private String buildQuery(String type, List qElems){
-     String selectVars = qElems.collect { elem ->
+    String selectVars = qElems.collect { elem ->
       mapToParam(elem)
     }. join(",")
     type +" "+selectVars
@@ -23,9 +23,10 @@ class SqlBuilder {
     String result
     switch(field.getClass()){
     case Map: def elemAsList = field.collect{k,v-> [k,v]}.flatten()
-              result = "${elemAsList.first()} as ${elemAsList.last()}"
-	      break;
+      result = "${elemAsList.first()} as ${elemAsList.last()}"
+      break;
     case String: result= field; break;
+    case List: result= field.join(","); break;
     case Closure: result = field(); break;
     default: result= ""
     }
@@ -52,6 +53,10 @@ class SqlBuilder {
   static String build(Closure closure){
     closure.delegate = new SqlBuilder();
     closure().build()
+  }
+
+  SqlBuilder selectAll(){
+    select(["*"])
   }
 
 }
